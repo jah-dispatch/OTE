@@ -265,11 +265,48 @@
 
             console.log("Payload ready for Google Apps Script:", leadData);
 
-            /* 
-             * FUTURE BACKEND HOOKUP:
-             * This is where you will add the fetch() request to send 'leadData' 
-             * to your Google Apps Script Web App URL once you build the spreadsheet.
-             */
+            // --- THE DATABASE PAYLOAD LAUNCH ---
+            
+            // PASTE YOUR GOOGLE WEB APP URL HERE:
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwR2t3OdNqnv9HSH5GvIIzO9aP12CWaInCcWJ4NB2urZrDIBdK_EEPY7u0fj6DiFxvhvQ/exec';
+
+            // Change button text so the salesperson knows it's working
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = "Saving Lead...";
+            submitBtn.style.opacity = "0.7";
+            submitBtn.disabled = true;
+
+            // Send the data to Google Sheets
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(leadData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Success!", data);
+                
+                // Show Success Notification
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+
+                // Reset the form and button
+                document.getElementById('leadForm').reset();
+                submitBtn.innerText = originalBtnText;
+                submitBtn.style.opacity = "1";
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error sending lead!', error.message);
+                alert("There was an issue saving the lead. Check connection.");
+                submitBtn.innerText = originalBtnText;
+                submitBtn.style.opacity = "1";
+                submitBtn.disabled = false;
+            });
 
             // Show Success Notification
             const toast = document.getElementById('toast');
