@@ -166,13 +166,45 @@
         #toast.show {
             bottom: 30px;
         }
+/* OTE SVG Logo Animations */
+        .ote-logo {
+            display: block;
+            margin: 0 auto 15px auto;
+            max-width: 100%;
+            width: 200px;
+            height: auto;
+            object-fit: contain;
+            /* A subtle red base glow */
+            filter: drop-shadow(0 0 2px rgba(204, 41, 43, 0.4)); 
+            animation: logoPulse 4s infinite alternate ease-in-out;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            cursor: pointer;
+        }
 
+        /* Flare up and slightly enlarge when tapped/hovered */
+        .ote-logo:hover, .ote-logo:active {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 15px rgba(204, 41, 43, 0.9)); 
+        }
+
+        /* The breathing animation */
+        @keyframes logoPulse {
+            0% { 
+                filter: drop-shadow(0 0 2px rgba(204, 41, 43, 0.3)); 
+                transform: translateY(0);
+            }
+            100% { 
+                filter: drop-shadow(0 0 8px rgba(204, 41, 43, 0.6)); 
+                transform: translateY(-3px); 
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="form-container">
         <div class="header">
+            <img src="ote-fruita.svg" alt="Over The Edge Fruita" class="ote-logo">
             <h1>OTE Sales Lead</h1>
             <p>Capture customer data for retention</p>
         </div>
